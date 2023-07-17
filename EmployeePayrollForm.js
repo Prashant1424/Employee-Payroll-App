@@ -54,23 +54,21 @@ class EmployeePayrollData{
     }
 }
 
-// Code for UC-2
+/* Code for UC-2 */
 
 window.addEventListener('DOMContentLoaded',(event)=>{
     const name = document.querySelector('#name');
     const textError = document.querySelector('.text-error');
     name.addEventListener('input',function(){
-    //    if(name.ariaValueMax.length == 0){   --- this is you guys sleep while wiriting the code
         
-    if(name.value.length == 0){   // name is the html element and value is the value we input in the input boxx
+    if(name.value.length == 0){
             textError.textContent="";
             return;
         }
 
         try{
-            //  (new EmployeePayrollData()).name=name.ariaValueMax;;  this is what we do when we are drunk
-            (new EmployeePayrollData()).name = name.value;;   //new EmployeePayrollData() this is creating an empty object 
-            textError.textContent = "";
+             (new EmployeePayrollData()).name = name.value;;  
+             textError.textContent = "";
         }catch(e){
             textError.textContent = e;
         }
@@ -79,8 +77,68 @@ window.addEventListener('DOMContentLoaded',(event)=>{
     const salary = document.querySelector('#salary');
     const output = document.querySelector('.salary-output');
     output.textContent = salary.value;
-    salary.addEventListener('input',function(){  // input is the event when we put cursor in input element, any input element.
-        output.textContent=salary.value;
+    salary.addEventListener('input',function(){ 
+         output.textContent=salary.value;
     });
 });
+
+/* Code for UC 3 */
+
+const save = () => {
+    try{
+        let employeePayrollData = createEmployeePayroll();
+    }catch(e){
+        return;
+    }
+}
+
+const createEmployeePayroll = () => {
+
+    let employeePayrollData = new EmployeePayrollData();
+    try{
+        employeePayrollData.name = getInputValueById('#name');
+    }catch(e){
+        setTextValue('.text-error', e);
+        throw e;
+    }
+    employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
+    employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
+    employeePayrollData.department = getSelectedValues('[name=department]');
+    employeePayrollData.salary = getInputValueById('#salary');
+    employeePayrollData.note = getInputValueById('#notes');
+    let date = getInputValueById('#day') + " " + getInputValueById('#month') + " "+getInputValueById('#year');
+    employeePayrollData.date = Date.parse(date);
+    alert(employeePayrollData.toString());
+    return employeePayrollData;
+}
+
+const getSelectedValues = (propertyValue) => {
+    let allItems = document.querySelectorAll(propertyValue);
+    let selItems = [];
+    allItems.forEach(item => {
+        if(item.checked)    selItems.push(item.value);
+    });
+    return selItems;
+}
+
+/*
+1:querySelector is the newer feature.
+2:The queryselectormethod can be used when selecting by element name,nesting, or class name.
+3:querySelector lets you find elements with rules that can't be expressed with getElementById
+
+*/
+const getInputValueById = (id) => {
+    let value = document.querySelector(id).value;
+    return value;
+}
+
+/*
+1:getElementById is better supported than querySelectgor in older versions of browsers.
+2:The thing with getElementById is that it only allows to select an element by its id.
+*/
+
+const getInputElementValue = (id) => {
+    let value = document.getElementById(id).value;
+    return value;
+}
 
