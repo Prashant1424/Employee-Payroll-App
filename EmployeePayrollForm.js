@@ -53,3 +53,34 @@ class EmployeePayrollData{
         return "id="+this.id+", name='" +this.name+", gender='"+this.gender+", profilePic='"+this.profilePic+", department="+this.department+", salary="+this.salary+", startDate="+empDate+", note="+this.note;
     }
 }
+
+// Code for UC-2
+
+window.addEventListener('DOMContentLoaded',(event)=>{
+    const name = document.querySelector('#name');
+    const textError = document.querySelector('.text-error');
+    name.addEventListener('input',function(){
+    //    if(name.ariaValueMax.length == 0){   --- this is you guys sleep while wiriting the code
+        
+    if(name.value.length == 0){   // name is the html element and value is the value we input in the input boxx
+            textError.textContent="";
+            return;
+        }
+
+        try{
+            //  (new EmployeePayrollData()).name=name.ariaValueMax;;  this is what we do when we are drunk
+            (new EmployeePayrollData()).name = name.value;;   //new EmployeePayrollData() this is creating an empty object 
+            textError.textContent = "";
+        }catch(e){
+            textError.textContent = e;
+        }
+    });
+
+    const salary = document.querySelector('#salary');
+    const output = document.querySelector('.salary-output');
+    output.textContent = salary.value;
+    salary.addEventListener('input',function(){  // input is the event when we put cursor in input element, any input element.
+        output.textContent=salary.value;
+    });
+});
+
