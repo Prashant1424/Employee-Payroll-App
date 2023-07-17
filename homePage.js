@@ -1,15 +1,27 @@
-/* Code for UC 5 */
+/* Code for UC 6 */
 
-window.addEventListener('DOMContentLoaded',(event) => {
+let empPayrollList;
+window.addEventListener('DOMContentLoaded',(event) =>{
+    empPayrollList = getEmployeePayrollDataFromStorage();
+    document.querySelector(".emp-count").textContent = empPayrollList.length;
     createInnerHtml();
+    localStorage.removeItem('editEmp');
 });
 
-// Template literal ES6 Feature
+const getEmployeePayrollDataFromStorage = () =>{
+    return localStorage.getItem('EmployeePayrollList')?JSON.parse(localStorage.getItem('EmployeePayrollList')) : [];
+}
 
-const createInnerHtml = () => {
+//Template literal ES6 feature
+const createInnerHtml =()=>{
+    
     const headerHtml="<th></th><th>Name</th><th>Gender</th><th>Department</th>"+"<th>Salary</th><th>Start Date</th><th>Actions</th>";
+
+    if(empPayrollList.length == 0) return;
+
     let innerHtml =`${headerHtml}`;
-    let empPayrollList = createEmployeePayrollJSON();
+
+    // let empPayrollList =createEmployeePayrollJSON();
     for(const empPayrollData of empPayrollList){
         innerHtml=`${innerHtml}    
             <tr>
@@ -27,7 +39,7 @@ const createInnerHtml = () => {
         `;
     }
     
-    document.querySelector('#table-display').innerHTML = innerHtml;
+    document.querySelector('#table-display').innerHTML=innerHtml;
 }
 
 const getDeptHtml =(deptList) =>{
@@ -38,7 +50,7 @@ const getDeptHtml =(deptList) =>{
     return deptHtml;
 }
 
-const createEmployeePayrollJSON = () => {
+const createEmployeePayrollJSON = () =>{
     let employeePayrollListLocal = [
         {
             _name: 'Narayan Mahadevan',
@@ -48,7 +60,7 @@ const createEmployeePayrollJSON = () => {
             _startDate:'29 Oct 2019',
             _note:'',
             _id:new Date().getTime(),
-            _profilePic:'C:\Users\sachi\Downloads\FS HTML_CSS LP02 Employee Payroll App Assets\assets\profile-images\Ellipse -2.png'
+            _profilePic:'C:\Users\LENOVO\Desktop\FS HTML_CSS LP02 Employee Payroll App Assets\assets\profile-images\Ellipse -2.png'
         },
         {
             _name: 'Amarpa Shashanka keerthi kumar',
@@ -58,8 +70,8 @@ const createEmployeePayrollJSON = () => {
             _startDate:'29 Oct 2019',
             _note:'',
             _id:new Date().getTime() +1,
-            _profilePic:'C:\Users\sachi\Downloads\FS HTML_CSS LP02 Employee Payroll App Assets\assets\profile-images\Ellipse -1.png'
+            _profilePic:'C:\Users\LENOVO\Desktop\FS HTML_CSS LP02 Employee Payroll App Assets\assets\profile-images\Ellipse -1.png'
         }
     ];
     return employeePayrollListLocal;
-};
+}
